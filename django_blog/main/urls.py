@@ -1,14 +1,16 @@
 from django.urls import path
-from .views import *
+from .views import show_home_page, show_about, show_article, add_comment, create_article, update_article, \
+    delete_article, list_topics, subscribe_to_topic, unsubscribe_from_topic, user_profile, set_password, set_userdata, \
+    deactivate_account, register_user, user_login, user_logout
 
 urlpatterns = [
     path('', show_home_page, name="home_page"),
     path('about/', show_about, name="about"),
-    path('<int:article>/', show_article, name="article"),
-    path('<int:article>/comment/', add_comment, name="add_comment"),
+    path('<int:article_id>/', show_article, name="article"),
+    path('<int:article_id>/comment/', add_comment, name="add_comment"),
     path('create/', create_article, name="create_article"),
-    path('<int:article>/update/', update_article, name="update_article"),
-    path('<int:article>/delete/', delete_article, name="delete_article"),
+    path('<int:article_id>/update/', update_article, name="update_article"),
+    path('<int:article_id>/delete/', delete_article, name="delete_article"),
     path('topics/', list_topics, name="list_topics"),
     path('topics/<int:topic>/subscribe/', subscribe_to_topic, name="subscribe_to_topic"),
     path('topics/<int:topic>/unsubscribe/', unsubscribe_from_topic, name="unsubscribe_from_topic"),
