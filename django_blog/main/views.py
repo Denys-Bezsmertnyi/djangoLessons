@@ -2,19 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 
 
+def show_article(request, article_id):
+    return render(request, 'main/post/detail.html')
+
 def show_home_page(request):
-    return HttpResponse("This is homepage")
+    return render(request, 'main/post/list.html')
 
 
 def show_about(request) -> HttpResponse:
     return HttpResponse("About text")
 
-
-def show_article(request: HttpRequest, article) -> HttpResponse:
-    return HttpResponse(f"Article text{article = }")
-
-
-def add_comment(request, article) -> HttpResponse:
+def add_comment(request, article_id) -> HttpResponse:
     return HttpResponse("Add comment here")
 
 
@@ -22,11 +20,11 @@ def create_article(request) -> HttpResponse:
     return HttpResponse("Article create")
 
 
-def update_article(request, article) -> HttpResponse:
+def update_article(request, article_id) -> HttpResponse:
     return HttpResponse("Article update")
 
 
-def delete_article(request, article) -> HttpResponse:
+def delete_article(request, article_id) -> HttpResponse:
     return HttpResponse("Article delete")
 
 
