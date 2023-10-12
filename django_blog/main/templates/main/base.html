@@ -9,12 +9,20 @@
 </head>
 <body>
 <div class="container-fluid">
-    <header class="lh-1 py-3 header">
+    <header class="p-3 bg-dark text-white">
         <div class="row">
             <div class="col-12 text-center">
-                <a href="{% url 'home_page' %}">
-                    <img src="{% static 'img/django_logo.png' %}" alt="Логотип" class="logo-image">
-                </a>
+                <div class="row align-items-center">
+                    <div class="custom-col-11-5 text-end">
+                        <a href="{% url 'home_page' %}">
+                            <img src="{% static 'img/django_logo.png' %}" alt="Логотип" class="logo-image mr-3">
+                        </a>
+                    </div>
+                    <div class="custom-col-6-5 text-center">
+                        <a href="{% url 'user_login' %}" class="custom-btn">Login</a>
+                        <a href="{% url 'register_user' %}" class="btn btn-link">Registration</a>
+                    </div>
+                </div>
                 <div class="categories">
                     <ul class="category-list">
                         {% for category in category_list %}
@@ -32,13 +40,12 @@
                     <h2 class="profile-title">User profile</h2>
                     <div class="row row-cols-1 justify-content-center">
                         <div class="col d-flex justify-content-center">
-                            <img src="{% static 'img/avatar.jpg' %}" alt="Avatar" class="avatar">
+                            <img src="{% static 'img/avatar.jpg' %}" alt="Avatar" class="avatar mt-3">
                         </div>
                     </div>
-
-                    <button class="btn btn-primary custom-btn">Login</button>
-                    <button class="btn btn-secondary custom-btn">Register</button>
-
+                    <p class="custom-p mt-4 text-center">Name: Denis</p>
+                    <p class="custom-p text-center">Surname: Bezsmertniy</p>
+                    <p class="custom-p text-center">Email: Ya_Ustal@gmail.com</p>
                 </div>
             </div>
         </section>
@@ -52,8 +59,6 @@
                     <li><a href="{% url 'home_page' %}">Home</a></li>
                     <li><a href="{% url 'about' %}">About</a></li>
                     <li><a href="{% url 'article' 12 %}">Show article</a></li>
-                    <li><a href="{% url 'user_login' %}">Login</a></li>
-                    <li><a href="{% url 'register_user' %}">Register</a></li>
                 </ul>
             </nav>
         </div>

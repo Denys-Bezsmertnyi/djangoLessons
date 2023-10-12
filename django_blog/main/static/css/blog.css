@@ -1,5 +1,5 @@
 body {
-    background-color: #808080;
+    background-color: #212529;
     margin: 0;
     padding: 0;
     font-family: helvetica, sans-serif;
@@ -15,6 +15,7 @@ header{
     max-width: 200px;
     max-height: 100px;
     border: 2px solid #BAFF39;
+    margin-right: 335px;
     transition: box-shadow 0.3s;
 }
 
@@ -76,7 +77,7 @@ header{
     padding: 10px 15px;
     border: 2px solid #BAFF39;
     border-radius: 5px;
-    background: linear-gradient(to right, rgba(186, 255, 57, 0.95) 40%, rgba(128, 128, 128, 0.85) 50%);
+    background: linear-gradient(to right, rgba(186, 255, 57, 0.95) 40%, rgba(33, 37, 41, 0.85) 50%);
     background-size: 250% 100%;
     background-position: right top;
     transition: all 0.5s;
@@ -194,7 +195,7 @@ input[type=submit] {
     padding: 10px 15px;
     border: 2px solid #BAFF39;
     border-radius: 5px;
-    background: linear-gradient(to right, rgba(186, 255, 57, 0.95) 40%, rgba(128, 128, 128, 0.85) 50%);
+    background: linear-gradient(to right, rgba(186, 255, 57, 0.95) 40%, rgba(33, 37, 41, 0.85) 50%);
     background-size: 250% 100%;
     background-position: right top;
     transition: all 0.5s;
@@ -208,4 +209,19 @@ input[type=submit] {
     text-align:center;
     color: #fff;
 
+}
+
+.custom-col-11-5 {
+    width: 73%; /* Ширина в процентах */
+    max-width: 73%; /* Максимальная ширина в процентах */
+    margin: 0 auto; /* Центрирование блока */
+}
+.custom-col-6-5 {
+    width: 20%; /* Ширина в процентах */
+    max-width: 20%; /* Максимальная ширина в процентах */
+    margin: 0 auto; /* Центрирование блока */
+}
+.custom-p{
+    font-family: 'Courier New', monospace;
+    color: white;
 }
