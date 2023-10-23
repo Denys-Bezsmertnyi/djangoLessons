@@ -1,17 +1,31 @@
 {% extends "main/base.html" %}
 
-{% block title %} Article {% endblock %}
+{% block title %}{{ article.title }}{% endblock %}
 
 {% block content %}
-{#    <h1>{{ post.title }}</h1>#}
-    <p class="date">
-{#        Published {{ post.publish }} by {{ post.author }}#}
-    </p>
-
-{{ post.body|linebreaks }}}
-    <p>
-{#        <a href="{% url "blog:post_share" post.id %}">#}
-            Share this post
-{#        </a>#}
-    </p>
+<h1 style="color: white">{{ article.title }} #{{article.pk}}</h1>
+<p class="custom-p">
+    {{ article.content }}
+</p>
+<p class="date">
+    Published {{ article.created }} by {{ article.author }}
+</p>
+{%for comment in comments%}
+<div class="panel">
+    <div class="panel-body">
+        <div class="media-block">
+            <a class="media-left" href="#">
+                <img class="img-circle img-sm" src="https://bootstraptema.ru/snippets/icons/2016/mia/1.png">
+            </a>
+            <div class="media-body">
+                <div class="mar-btm">
+                    <a href="#" class="badge bg-primary text-wrap">{{ comment.author }}</a>
+                    <p class="text-muted text-sm">{{ comment.created }}</p>
+                </div>
+                <p class="custom-p">{{ comment.message }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

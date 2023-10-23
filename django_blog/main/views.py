@@ -1,14 +1,20 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
+from .models import Article, Comment
 
 
 def show_article(request, article_id):
-    return render(request, 'main/post/detail.html')
+    article = get_object_or_404(Article,
+                                pk=article_id)
+    comments = Comment.objects.filter(article=article_id)
+    return render(request, 'main/post/detail.html', {'article': article,
+                                                     'comments': comments})
 
 
 def show_home_with_categories(request):
-    category_list = ["Anime", "Cartoon", "Horror", "Sci-fi", "Novell"]
-    return render(request, 'main/post/list.html', {'category_list': category_list})
+    articles = Article.objects.all()
+    return render(request, 'main/post/list.html', {'articles': articles})
 
 
 def show_about(request):

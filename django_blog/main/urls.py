@@ -4,6 +4,7 @@ from .views import show_about, show_article, add_comment, create_article, update
     delete_article, topic_list, subscribe_to_topic, unsubscribe_from_topic, user_profile, set_password, set_userdata, \
     deactivate_account, register_user, user_login, user_logout, show_home_with_categories
 
+app_name = 'main'
 urlpatterns = [
     path('', show_home_with_categories, name="home_page"),
     path('about/', show_about, name="about"),

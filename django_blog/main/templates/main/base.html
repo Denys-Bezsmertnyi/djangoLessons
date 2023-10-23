@@ -14,13 +14,13 @@
             <div class="col-12 text-center">
                 <div class="row align-items-center">
                     <div class="custom-col-11-5 text-end">
-                        <a href="{% url 'home_page' %}">
+                        <a href="{% url 'main:home_page' %}">
                             <img src="{% static 'img/django_logo.png' %}" alt="Логотип" class="logo-image mr-3">
                         </a>
                     </div>
                     <div class="custom-col-6-5 text-center">
-                        <a href="{% url 'user_login' %}" class="custom-btn">Login</a>
-                        <a href="{% url 'register_user' %}" class="btn btn-link">Registration</a>
+                        <a href="{% url 'main:user_login' %}" class="custom-btn">Login</a>
+                        <a href="{% url 'main:register_user' %}" class="btn btn-link">Registration</a>
                     </div>
                 </div>
                 <div class="categories">
@@ -51,14 +51,16 @@
         </section>
 
         <div class="col-8 mt-2" style="order: 2;">
-            {% block content %}{% endblock %}
+            {% block content %}
+
+            {% endblock %}
         </div>
         <div class="col-1 mt-2" style="order: 3;">
             <nav class="nav">
                 <ul>
-                    <li><a href="{% url 'home_page' %}">Home</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'article' 12 %}">Show article</a></li>
+                    <li><a href="{% url 'main:home_page' %}">Home</a></li>
+                    <li><a href="{% url 'main:about' %}">About</a></li>
+                    <li><a href="{% url 'main:article' 12 %}">Show article</a></li>
                 </ul>
             </nav>
         </div>

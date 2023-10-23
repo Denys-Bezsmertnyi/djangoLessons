@@ -225,3 +225,41 @@ input[type=submit] {
     font-family: 'Courier New', monospace;
     color: white;
 }
+
+.img-sm {
+ width: 46px;
+ height: 46px;
+}
+.panel {
+ box-shadow: 0 2px 0 rgba(0,0,0,0.075);
+ border-radius: 0;
+ border: 0;
+ margin-top: 30px;
+ margin-bottom: 15px;
+}
+.panel-body {
+ padding: 25px 20px;
+ border: 2px solid #696969;
+}
+.img-circle{
+ border: 2px solid #696969;
+ margin-right: 20px;
+}
+.media-block .media-left {
+ display: block;
+ float: left
+}
+.media-block .media-right {
+ float: right
+}
+.media-block .media-body {
+ display: block;
+ overflow: hidden;
+ width: auto
+}
+.text-sm {
+ font-size: 0.9em;
+}
+.text-5x, .text-4x, .text-5x, .text-2x, .text-lg, .text-sm, .text-xs {
+ line-height: 1.25;
+}
