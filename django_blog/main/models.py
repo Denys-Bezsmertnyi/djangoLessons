@@ -16,7 +16,7 @@ class Article(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    topic = models.ManyToManyField("Topic")
+    topic = models.ManyToManyField("Topic", related_name="article_topics")
 
     def get_absolute_url(self):
         return reverse('main:article', args=[str(self.pk)])
