@@ -19,14 +19,20 @@
                         </a>
                     </div>
                     <div class="custom-col-6-5 text-center">
+                        {% if request.user.is_authenticated %}
+                        <a href="{% url 'main:user_logout' %}" class="custom-btn">Logout</a>
+                        {% else %}
                         <a href="{% url 'main:user_login' %}" class="custom-btn">Login</a>
                         <a href="{% url 'main:register_user' %}" class="btn btn-link">Registration</a>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="categories">
                     <ul class="category-list">
-                        {% for category in category_list %}
-                        <li><a href="#">{{ category }}</a></li>
+                        {% for topic in topics %}
+                        <ul>
+                            <li><a href="{% url 'main:home_page' %}?topic_id={{ topic.id }}">{{ topic.title }}</a></li>
+                        </ul>
                         {% endfor %}
                     </ul>
                 </div>
@@ -60,7 +66,8 @@
                 <ul>
                     <li><a href="{% url 'main:home_page' %}">Home</a></li>
                     <li><a href="{% url 'main:about' %}">About</a></li>
-                    <li><a href="{% url 'main:article' 12 %}">Show article</a></li>
+                    <li><a href="{% url 'main:create_article' %}">Create article</a></li>
+
                 </ul>
             </nav>
         </div>

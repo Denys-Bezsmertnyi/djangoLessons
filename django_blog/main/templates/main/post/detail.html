@@ -10,6 +10,15 @@
 <p class="date">
     Published {{ article.created }} by {{ article.author }}
 </p>
+<div class="comment-form">
+    <h1 style="color: white">Leave a Comment</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
 {%for comment in comments%}
 <div class="panel">
     <div class="panel-body">
