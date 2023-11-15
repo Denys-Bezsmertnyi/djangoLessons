@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from .resources import ArticleViewSet, CommentViewSet, TopicViewSet
+from main.API.resources import ArticleViewSet, CommentViewSet, TopicViewSet
 from .views import show_about, show_article, create_article, update_article, \
     delete_article, topic_list, subscribe_to_topic, unsubscribe_from_topic, user_profile, set_password, set_userdata, \
     deactivate_account, register_user, user_login, user_logout, home_page
