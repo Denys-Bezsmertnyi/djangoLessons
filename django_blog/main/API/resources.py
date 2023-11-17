@@ -1,7 +1,6 @@
-from rest_framework import viewsets, mixins
-
-from main.models import Article, Topic, Comment
 from main.API.serializers import TopicSerializer, ArticleSerializer, CommentSerializer
+from main.models import Article, Topic, Comment
+from rest_framework import viewsets, mixins
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
