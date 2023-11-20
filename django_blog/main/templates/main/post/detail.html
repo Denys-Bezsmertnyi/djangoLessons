@@ -10,12 +10,13 @@
 <p class="date">
     Published {{ article.created }} by {{ article.author }}
 </p>
+<h3><a href="{% url 'main:delete_article' article_id=article.pk %}">Delete this article</a></h3>
+<h3><a href="{% url 'main:update_article' article_id=article.pk %}">Update this article</a></h3>
 <div class="comment-form">
     <h1 style="color: white">Leave a Comment</h1>
-    <form action="" method="post">
+    <form action="{% url 'main:comment_create' article_id=article.pk %}" method="post">
         {% csrf_token %}
         {{form.as_p}}
-
         <input type="submit" value="Submit">
     </form>
 </div>

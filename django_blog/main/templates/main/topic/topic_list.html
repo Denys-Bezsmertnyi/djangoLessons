@@ -4,7 +4,7 @@
 
 {% block content %}
 {% for topic in topics %}
-<p class="text-body"><a href="{% url 'main:home_page' %}"> {{ topic.title }}</a></p>
-<p class="text-body"> {{ topic.description }} </p>
+<p class="text-body"><a href="{% url 'main:home_page'%}"> {{ topic.title }}</a></p>
+<p class="custom-p"> {{ topic.description }} </p>
 {% endfor %}
 {% endblock %}

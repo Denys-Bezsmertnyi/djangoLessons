@@ -1,21 +1,22 @@
 from django.urls import path, include
 from main.API.urls import router
 
-from .views import show_about, show_article, create_article, update_article, \
-    delete_article, topic_list, subscribe_to_topic, unsubscribe_from_topic, user_profile, set_password, set_userdata, \
-    deactivate_account, Register, Login, Logout, home_page
+from .views import subscribe_to_topic, unsubscribe_from_topic, user_profile, set_password, set_userdata, \
+    deactivate_account, Register, Login, Logout, TopicList, ArticleDetailVIew, CommentCreateView, AboutView, \
+    ArticleCreateView, DeleteArticleView, ArticleUpdateView, ArticleListView
 
 app_name = 'main'
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('', home_page, name="home_page"),
-    path('about/', show_about, name="about"),
-    path('<int:article_id>/', show_article, name="article"),
-    path('create/', create_article, name="create_article"),
-    path('<int:article_id>/update/', update_article, name="update_article"),
-    path('<int:article_id>/delete/', delete_article, name="delete_article"),
-    path('topics/', topic_list, name='topic_list'),
+    path('', ArticleListView.as_view(), name="home_page"),
+    path('about/', AboutView.as_view(), name="about"),
+    path('<int:article_id>/', ArticleDetailVIew.as_view(), name="article"),
+    path('<int:article_id>/add_comment/', CommentCreateView.as_view(), name="comment_create"),
+    path('create/', ArticleCreateView.as_view(), name="create_article"),
+    path('<int:article_id>/update/', ArticleUpdateView.as_view(), name="update_article"),
+    path('<int:article_id>/delete/', DeleteArticleView.as_view(), name="delete_article"),
+    path('topics/', TopicList.as_view(), name='topic_list'),
     path('topics/<int:topic>/subscribe/', subscribe_to_topic, name="subscribe_to_topic"),
     path('topics/<int:topic>/unsubscribe/', unsubscribe_from_topic, name="unsubscribe_from_topic"),
     path('profile/<str:username>/', user_profile, name="user_profile"),
