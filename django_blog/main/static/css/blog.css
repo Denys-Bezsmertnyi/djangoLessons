@@ -132,13 +132,6 @@ p.date {
     font-style: italic;
 }
 
-/* pagination */
-.pagination {
-    margin: 40px 0;
-    font-weight: bold;
-}
-
-/* forms */
 label {
     float: left;
     clear: both;
