@@ -1,11 +1,12 @@
-from django.contrib import messages
-from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView
 
-from .forms import AuthenticationForm, AddCommentForm, RegisterForm
+from .forms import AddCommentForm
 from .models import Article, Comment, Topic
 
 
@@ -111,31 +112,20 @@ def deactivate_account(request):
     return render(request, 'main/user/deactivate.html')
 
 
-def register_user(request):
-    if request.method == 'POST':
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Registration successful.')
-            return redirect(reverse('main:home_page'))
-        messages.error(request, 'Unsuccessful registration. Invalid data.')
-    form = RegisterForm()
-    return render(request, 'main/user/register.html', {'form': form})
+class Register(CreateView):
+    template_name = 'main/user/register.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('main:home_page')
 
 
-def user_login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request.POST)
-        if form.is_valid():
-            login(request, form.user)
-            return HttpResponseRedirect('/')
-    else:
-        form = AuthenticationForm()
-        return render(request, 'main/user/login.html', {'form': form})
+class Login(LoginView):
+    template_name = 'main/user/login.html'
+    success_url = reverse_lazy('main:home_page')
+
+    def get_success_url(self):
+        return self.success_url
 
 
-@login_required(login_url='/login/')
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect('/')
+class Logout(LoginRequiredMixin, LogoutView):
+    next_page = '/'
+    login_url = 'login/'

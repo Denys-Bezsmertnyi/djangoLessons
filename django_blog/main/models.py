@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from rest_framework.authentication import TokenAuthentication
 
 
 class Comment(models.Model):
@@ -37,3 +38,7 @@ class Preference(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     is_notified = models.BooleanField(default=False)
+
+
+class CustomTokenAuth(TokenAuthentication):
+    keyword = 'Bearer'
