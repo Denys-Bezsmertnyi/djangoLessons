@@ -3,7 +3,7 @@ from main.API.urls import router
 
 from .views import show_about, show_article, create_article, update_article, \
     delete_article, topic_list, subscribe_to_topic, unsubscribe_from_topic, user_profile, set_password, set_userdata, \
-    deactivate_account, register_user, user_login, user_logout, home_page
+    deactivate_account, Register, Login, Logout, home_page
 
 app_name = 'main'
 
@@ -22,7 +22,7 @@ urlpatterns = [
     path('set-password/', set_password, name="set_password"),
     path('set-userdata/', set_userdata, name="set_userdata"),
     path('deactivate/', deactivate_account, name="deactivate_account"),
-    path('register/', register_user, name="register_user"),
-    path('login/', user_login, name="user_login"),
-    path('logout/', user_logout, name="user_logout"),
+    path('register/', Register.as_view(), name="register_user"),
+    path('login/', Login.as_view(), name="user_login"),
+    path('logout/', Logout.as_view(), name="user_logout"),
 ]
