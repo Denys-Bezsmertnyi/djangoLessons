@@ -3,8 +3,10 @@
 {% block title %} Deactivate {% endblock %}
 
 {% block content %}
-<form action="" method="get">
-    {% csrf_token %}
-    <input type="submit" value="Deactivate account">
-</form>
+    <h1>Delete Account</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to delete your account?</p>
+        <input type="submit" value="Confirm delete">
+    </form>
 {% endblock %}
