@@ -10,8 +10,10 @@
 <p class="date">
     Published {{ article.created }} by {{ article.author }}
 </p>
+{%if request.user == article.author %}
 <h3><a href="{% url 'main:delete_article' article_id=article.pk %}">Delete this article</a></h3>
 <h3><a href="{% url 'main:update_article' article_id=article.pk %}">Update this article</a></h3>
+{%endif%}
 <div class="comment-form">
     <h1 style="color: white">Leave a Comment</h1>
     <form action="{% url 'main:comment_create' article_id=article.pk %}" method="post">

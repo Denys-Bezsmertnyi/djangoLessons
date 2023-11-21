@@ -19,7 +19,7 @@ class Article(models.Model):
     content = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articles')
     topic = models.ManyToManyField("Topic", related_name="article_topics")
 
     def __str__(self):
@@ -33,7 +33,7 @@ class Article(models.Model):
 class Topic(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField(max_length=255)
-    subscribers = models.ManyToManyField(User, through="Preference")
+    subscribers = models.ManyToManyField(User, through="Preference", related_name='my_topics')
 
     def __str__(self):
         return self.title

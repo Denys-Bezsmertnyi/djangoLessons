@@ -49,9 +49,12 @@
                             <img src="{% static 'img/avatar.jpg' %}" alt="Avatar" class="avatar mt-3">
                         </div>
                     </div>
-                    <p class="custom-p mt-4 text-center">Name: Denis</p>
-                    <p class="custom-p text-center">Surname: Bezsmertniy</p>
-                    <p class="custom-p text-center">Email: Ya_Ustal@gmail.com</p>
+                    {%if request.user.is_authenticated%}
+                    <p class="custom-p mt-4 text-center">Username: {{request.user.username}}</p>
+                    <p class="custom-p text-center">First name: {{request.user.first_name}}</p>
+                    <p class="custom-p text-center">Last name: {{request.user.last_name}}</p>
+                    <p class="custom-p text-center">Email: {{request.user.email}}</p>
+                    {% endif %}
                 </div>
             </div>
         </section>
@@ -67,7 +70,9 @@
                     <li><a href="{% url 'main:home_page' %}">Home</a></li>
                     <li><a href="{% url 'main:about' %}">About</a></li>
                     <li><a href="{% url 'main:create_article' %}">Create article</a></li>
-
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'main:user_profile' user_id=user.pk %}">Profile</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>

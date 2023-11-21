@@ -1,14 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
+from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DetailView, TemplateView, DeleteView, UpdateView
 
 from .forms import AddCommentForm, ArticleCreateForm
-from .models import Article, Comment, Topic
+from .models import Article, Topic
 
 
 class TopicList(ListView):
@@ -130,6 +131,52 @@ def subscribe_to_topic(request, topic):
 def unsubscribe_from_topic(request, topic):
     return render(request, 'main/topic/topic_unsubscribe.html')
 
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = 'main/user/profile.html'
+    login_url = reverse_lazy('main:user_login')
+    context_object_name = 'user'
+    pk_url_kwarg = 'user_id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = User.objects.get(pk=self.object.pk)
+        topics = user.my_topics.all()[:3]
+        context['topics'] = topics
+        articles = user.articles.all()
+        context['articles'] = articles
+        return context
+
+
+class UserdataUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('main:user_login')
+    model = User
+    pk_url_kwarg = 'user_id'
+    template_name = 'main/user/set_userdata.html'
+    fields = ['username', 'first_name', 'last_name']
+
+    def get_success_url(self):
+        return reverse_lazy('main:user_profile', kwargs={'user_id': self.object.pk})
+
+
+class UserChangePassword(LoginRequiredMixin, PasswordChangeView):
+    login_url = reverse_lazy('main:user_login')
+    pk_url_kwarg = 'user_id'
+    template_name = 'main/user/set_password.html'
+    model = User
+    fields = ['password']
+
+    def get_success_url(self):
+        return reverse_lazy('main:user_profile', kwargs={'user_id': self.request.user.pk})
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'main/user/deactivate.html'
+    login_url = reverse_lazy('main:user_login')
+    pk_url_kwarg = 'user_id'
+    success_url = reverse_lazy('main:home_page')
 
 @login_required(login_url='/login/')
 def user_profile(request, username):

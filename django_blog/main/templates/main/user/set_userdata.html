@@ -3,22 +3,10 @@
 {% block title %} Set Password {% endblock %}
 
 {% block content %}
-<h1>Set New Userdata</h1>
+<h1>Update your data</h1>
 <form action="" method="post">
     {% csrf_token %}
-    <label for="old_name">Old name:</label>
-    <input type="name" id="old_name" name="old_name" required><br>
-
-    <label for="name">New name:</label>
-    <input type="name" id="name" name="name" required><br>
-
-    <label for="old_email">Old email:</label>
-    <input type="email" id="old_email" name="old_email" required><br>
-
-    <label for="email">New email:</label>
-    <input type="email" id="email" name="email" required><br>
-
-    <input type="submit" value="Set New Userdata">
+    {{form.as_p}}
+    <input type="submit" value="Submit">
 </form>
-
 {% endblock %}

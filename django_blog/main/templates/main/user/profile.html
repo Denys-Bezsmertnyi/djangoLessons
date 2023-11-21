@@ -4,6 +4,41 @@
 
 {% block content %}
 <h1>Your Profile</h1>
-<p>Your profile is under construction</p>
+<p>Username: {{user.username}}</p>
+<p>First Name: {{user.first_name}}</p>
+<p>Last Name: {{user.last_name}}</p>
+<div>
+<a href="{% url 'main:set_userdata' user_id=user.pk %}">Change your data</a>
+</div>
+<div>
+<a href="{% url 'main:set_password' user_id=user.pk %}">Change your password</a>
+</div>
+<div>
+<a href="{% url 'main:deactivate_account' user_id=user.pk %}">Gdpr procedure</a>
+</div>
+{% if topics %}
+    {% for topic in topics %}
+        <p>Your topic: {{topic}}</p>
+    {% endfor %}
+{%else%}
+<p>There is no topics in your list</p>
+{% endif %}
+{% if articles %}
+    {% for article in articles %}
+        <h2>
+            <a href="{% url 'main:article' article.pk %}">
+                {{ article.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ article.created }} by {{ article.author }}
+        </p>
+        <p class="custom-p">
+            {{ article.content|truncatewords:30 }}
 
+        </p>
+    {% endfor %}
+{%else%}
+<p>There is no article created</p>
+{% endif %}
 {% endblock %}
