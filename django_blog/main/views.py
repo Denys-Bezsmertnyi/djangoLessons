@@ -122,6 +122,34 @@ class DeleteArticleView(LoginRequiredMixin, DeleteView):
     template_name = 'main/post/confirm_delete.html'
 
 
+class TopicUnsubscribeView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('main:user_login')
+    model = Topic
+    pk_url_kwarg = 'topic'
+    template_name = 'main/topic/topic_unsubscribe.html'
+    fields = []
+    success_url = reverse_lazy('main:topic_list')
+    def form_valid(self, form):
+        user = self.request.user
+        topic = form.save(commit=False)
+        topic.subscribers.remove(user)
+        return super().form_valid(form)
+
+
+class TopicSubscribeView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('main:user_login')
+    model = Topic
+    pk_url_kwarg = 'topic'
+    template_name = 'main/topic/topic_subscribe.html'
+    fields = []
+    success_url = reverse_lazy('main:topic_list')
+    def form_valid(self, form):
+        user = self.request.user
+        topic = form.save(commit=False)
+        topic.subscribers.add(user)
+        return super().form_valid(form)
+
+
 @login_required(login_url='/login/')
 def subscribe_to_topic(request, topic):
     return render(request, 'main/topic/topic_subscribe.html')
@@ -142,7 +170,7 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = User.objects.get(pk=self.object.pk)
-        topics = user.my_topics.all()[:3]
+        topics = user.my_topics.all()[:10]
         context['topics'] = topics
         articles = user.articles.all()
         context['articles'] = articles
@@ -177,25 +205,6 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
     login_url = reverse_lazy('main:user_login')
     pk_url_kwarg = 'user_id'
     success_url = reverse_lazy('main:home_page')
-
-@login_required(login_url='/login/')
-def user_profile(request, username):
-    return render(request, 'main/user/profile.html')
-
-
-@login_required(login_url='/login/')
-def set_password(request):
-    return render(request, 'main/user/set_password.html')
-
-
-@login_required(login_url='/login/')
-def set_userdata(request):
-    return render(request, 'main/user/set_userdata.html')
-
-
-@login_required(login_url='/login/')
-def deactivate_account(request):
-    return render(request, 'main/user/deactivate.html')
 
 
 class Register(CreateView):

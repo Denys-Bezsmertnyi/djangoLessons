@@ -6,5 +6,18 @@
 {% for topic in topics %}
 <p class="text-body"><a href="{% url 'main:home_page'%}"> {{ topic.title }}</a></p>
 <p class="custom-p"> {{ topic.description }} </p>
+{% if request.user in topic.subscribers.all %}
+<form action="{%url 'main:unsubscribe_from_topic' topic=topic.pk%}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Unsubscribe">
+</form>
+{% else %}
+<form action="{%url 'main:subscribe_to_topic' topic=topic.pk%}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Subscribe">
+</form>
+{% endif %}
 {% endfor %}
 {% endblock %}

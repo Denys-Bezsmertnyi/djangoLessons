@@ -1,19 +1,20 @@
 {% extends "main/base.html" %}
+{% load article_tag %}
 {% block title %}My Blog{% endblock %}
 
 {% block content %}
 {% for article in articles %}
-<h2>
-    <a href="{% url 'main:article' article.pk %}">
-        {{ article.title }}
-    </a>
-</h2>
-<p class="date">
-    Published {{ article.created }} by {{ article.author }}
-</p>
-<p class="custom-p">
-    {{ article.content|truncatewords:30 }}
-
-</p>
+{% display_article article %}
+<!--<h2>-->
+<!--    <a href="{% url 'main:article' article.pk %}">-->
+<!--        {{ article.title }}-->
+<!--    </a>-->
+<!--</h2>-->
+<!--<p class="date">-->
+<!--    Published {{ article.created }} by {{ article.author }}-->
+<!--</p>-->
+<!--<p class="custom-p">-->
+<!--    {{ article.content|truncatewords:30 }}-->
+<!--</p>-->
 {% endfor %}
 {% endblock %}

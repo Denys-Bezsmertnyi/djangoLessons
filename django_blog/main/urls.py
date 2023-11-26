@@ -1,10 +1,9 @@
 from django.urls import path, include
 from main.API.urls import router
 
-from .views import subscribe_to_topic, unsubscribe_from_topic, \
-    Register, Login, Logout, TopicList, ArticleDetailVIew, CommentCreateView, AboutView, \
+from .views import Register, Login, Logout, TopicList, ArticleDetailVIew, CommentCreateView, AboutView, \
     ArticleCreateView, DeleteArticleView, ArticleUpdateView, ArticleListView, UserProfileView, UserdataUpdateView, \
-    UserChangePassword, UserDeleteView
+    UserChangePassword, UserDeleteView, TopicUnsubscribeView, TopicSubscribeView
 
 app_name = 'main'
 
@@ -18,8 +17,8 @@ urlpatterns = [
     path('<int:article_id>/update/', ArticleUpdateView.as_view(), name="update_article"),
     path('<int:article_id>/delete/', DeleteArticleView.as_view(), name="delete_article"),
     path('topics/', TopicList.as_view(), name='topic_list'),
-    path('topics/<int:topic>/subscribe/', subscribe_to_topic, name="subscribe_to_topic"),
-    path('topics/<int:topic>/unsubscribe/', unsubscribe_from_topic, name="unsubscribe_from_topic"),
+    path('topics/<int:topic>/subscribe/', TopicSubscribeView.as_view(), name="subscribe_to_topic"),
+    path('topics/<int:topic>/unsubscribe/', TopicUnsubscribeView.as_view(), name="unsubscribe_from_topic"),
     path('profile/<int:user_id>/', UserProfileView.as_view(), name="user_profile"),
     path('profile/<int:user_id>/set-password/', UserChangePassword.as_view(), name="set_password"),
     path('profile/<int:user_id>/set-userdata/', UserdataUpdateView.as_view(), name="set_userdata"),

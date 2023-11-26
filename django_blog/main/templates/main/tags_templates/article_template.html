@@ -1,0 +1,16 @@
+<h2>
+    <a href="{{ article.get_absolute_url }}">
+        {{ article.title }}
+    </a>
+</h2>
+<p>Content: {{ article.content|truncatechars:30}}</p>
+<p>Created: {{ article.created}}</p>
+
+{% if article.topic.count > 0 %}
+    <p>Topics:
+        {% for topic in article.topic.all %}
+            {{ topic.title }}{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </p>
+{% endif %}
+<p>Comments: {{ article.comments.count}}</p>

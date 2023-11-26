@@ -3,6 +3,10 @@
 {% block title %}Subscribe{% endblock %}
 
 {% block content %}
-<h1>Subscribe on this topic</h1>
-<input type="submit" value="Subscribe">
+<h1>Subscribe</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+</form>
 {% endblock %}
