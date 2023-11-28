@@ -15,8 +15,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['id', 'title', 'content', 'created', 'updated', 'author', 'topic']
-
+        fields = ['id', 'title', 'content', 'created', 'updated', 'topic']
+        read_only_fields = ['author']
 
 class CommentSerializer(serializers.ModelSerializer):
     article = serializers.StringRelatedField()
