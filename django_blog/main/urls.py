@@ -1,5 +1,5 @@
 from django.urls import path, include
-from main.API.urls import router
+
 
 from .views import Register, Login, Logout, TopicList, ArticleDetailVIew, CommentCreateView, AboutView, \
     ArticleCreateView, DeleteArticleView, ArticleUpdateView, ArticleListView, UserProfileView, UserdataUpdateView, \
@@ -8,7 +8,7 @@ from .views import Register, Login, Logout, TopicList, ArticleDetailVIew, Commen
 app_name = 'main'
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('api/', include("main.API.urls")),
     path('', ArticleListView.as_view(), name="home_page"),
     path('about/', AboutView.as_view(), name="about"),
     path('<int:article_id>/', ArticleDetailVIew.as_view(), name="article"),
