@@ -3,10 +3,10 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, mixins, status, views
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from main.API.permissions import IsAuthorOrAdmin
+from main.API.permissions import IsAuthorOrAdmin, IsProfileOwner
 from main.API.serializers import TopicSerializer, ArticleSerializer, CommentSerializer, UserRegisterSerializer, \
     UserSerializer, UserProfileSerializer, UserSetPasswordSerializer
 from main.models import Article, Topic, Comment
@@ -59,8 +59,11 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['create', 'set_password']:
             permission_classes = []
+        elif self.action in ['list']:
+            permission_classes = [IsAdminUser]
         else:
-            permission_classes = [IsAuthorOrAdmin]
+            permission_classes = [IsProfileOwner]
+
         return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):

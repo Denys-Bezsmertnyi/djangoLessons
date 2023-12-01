@@ -12,8 +12,8 @@ router.register(r'user', UserViewSet)
 
 
 urlpatterns = [
-    path("", include(router.urls)),
-    path("login/", obtain_auth_token),
-    path("logout/", LogoutApiView.as_view())
+    path('', include(router.urls)),
+    path('login/', obtain_auth_token),
+    path('logout/', LogoutApiView.as_view())
 ]
 
