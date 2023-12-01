@@ -33,6 +33,9 @@ class CommentViewSet(mixins.CreateModelMixin,
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
 
 class LogoutApiView(views.APIView):
     permission_classes = [IsAuthenticated]
