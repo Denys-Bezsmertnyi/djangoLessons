@@ -5,11 +5,12 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from main.API.permissions import IsProfileOwner, IsAuthorOrReadOnly
 from main.API.serializers import TopicSerializer, CommentReadSerializer, UserRegisterSerializer, \
     UserSerializer, UserProfileSerializer, UserSetPasswordSerializer, CommentWriteSerializer, ArticleWriteSerializer, \
-    ArticleReadSerializer
+    ArticleReadSerializer, TopicSubscriptionSerializer
 from main.models import Article, Topic, Comment
 from main.models import CustomTokenAuth
 
@@ -110,3 +111,19 @@ class UserViewSet(viewsets.ModelViewSet):
         user.save()
         Token.objects.filter(user=user).delete()
         return Response({'detail': 'Password updated successfully.'}, status=status.HTTP_200_OK)
+
+
+class TopicSubscriptionAPIView(APIView):
+    def post(self, request, topic_id):
+        topic = Topic.objects.get(pk=topic_id)
+        serializer = TopicSubscriptionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        subscribe = serializer.validated_data['subscribe']
+        user = request.user
+
+        if subscribe:
+            topic.subscribers.add(user)
+        else:
+            topic.subscribers.remove(user)
+
+        return Response({'success': True}, status=status.HTTP_200_OK)

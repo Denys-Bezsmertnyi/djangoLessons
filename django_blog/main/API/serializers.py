@@ -95,3 +95,7 @@ class UserSetPasswordSerializer(serializers.ModelSerializer):
         if attrs['new_password'] != attrs['new_password2']:
             raise ValidationError("New passwords are different")
         return attrs
+
+
+class TopicSubscriptionSerializer(serializers.Serializer):
+    subscribe = serializers.BooleanField(required=True)
