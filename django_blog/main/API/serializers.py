@@ -5,27 +5,51 @@ from rest_framework.exceptions import ValidationError
 from main.models import Article, Topic, Comment
 
 
+class UserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'email']
+
+
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
         fields = ['id', 'title', 'description', 'subscribers']
 
 
-class ArticleSerializer(serializers.ModelSerializer):
+class CommentReadSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ['id', 'message', 'created', 'author']
+
+
+class CommentWriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'message', 'article', 'created']
+        read_only_fields = ['author']
+
+
+class ArticleReadSerializer(serializers.ModelSerializer):
     topic = serializers.StringRelatedField(many=True, read_only=True)
+    comments = CommentReadSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Article
+        fields = ['id', 'title', 'content', 'created', 'updated', 'topic', 'comments', 'author']
+
+
+class ArticleWriteSerializer(serializers.ModelSerializer):
+    topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all(), many=True)
 
     class Meta:
         model = Article
         fields = ['id', 'title', 'content', 'created', 'updated', 'topic']
         read_only_fields = ['author']
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    article = serializers.StringRelatedField()
-
-    class Meta:
-        model = Comment
-        fields = ['id', 'created', 'message', 'author', 'article']
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -49,7 +73,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     topics = TopicSerializer(many=True, source='my_topics')
-    articles = ArticleSerializer(many=True)
+    articles = ArticleReadSerializer(many=True)
 
     class Meta:
         model = User
@@ -71,11 +95,3 @@ class UserSetPasswordSerializer(serializers.ModelSerializer):
         if attrs['new_password'] != attrs['new_password2']:
             raise ValidationError("New passwords are different")
         return attrs
-
-
-class UserSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email']

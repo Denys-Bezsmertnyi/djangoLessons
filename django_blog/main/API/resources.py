@@ -6,17 +6,31 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from main.API.permissions import IsAuthorOrAdmin, IsProfileOwner
-from main.API.serializers import TopicSerializer, ArticleSerializer, CommentSerializer, UserRegisterSerializer, \
-    UserSerializer, UserProfileSerializer, UserSetPasswordSerializer
+from main.API.permissions import IsProfileOwner, IsAuthorOrReadOnly
+from main.API.serializers import TopicSerializer, CommentReadSerializer, UserRegisterSerializer, \
+    UserSerializer, UserProfileSerializer, UserSetPasswordSerializer, CommentWriteSerializer, ArticleWriteSerializer, \
+    ArticleReadSerializer
 from main.models import Article, Topic, Comment
 from main.models import CustomTokenAuth
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
-    permission_classes = [IsAuthenticated, IsAuthorOrAdmin]
+
+    def get_serializer_class(self):
+        if self.request.method in ['POST', 'DELETE', 'PUT', 'PATCH']:
+            return ArticleWriteSerializer
+        elif self.request.method == 'GET':
+            return ArticleReadSerializer
+
+    def get_permissions(self):
+        if self.action in ['create']:
+            permission_classes = [IsAuthenticated]
+        elif self.action in ['update', 'destroy', 'partial_update']:
+            permission_classes = [IsAuthorOrReadOnly]
+        else:
+            permission_classes = []
+        return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -27,11 +41,25 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TopicSerializer
 
 
-class CommentViewSet(mixins.CreateModelMixin,
-                     mixins.RetrieveModelMixin,
+class CommentViewSet(mixins.CreateModelMixin, mixins.RetrieveModelMixin, mixins.DestroyModelMixin,
                      viewsets.GenericViewSet):
     queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST' or self.request.method == 'DELETE':
+            return CommentWriteSerializer
+        elif self.request.method == 'GET':
+            return CommentReadSerializer
+
+    def get_permissions(self):
+        if self.action in ['create']:
+            permission_classes = [IsAuthenticated]
+        elif self.action in ['destroy']:
+            permission_classes = [IsAdminUser]
+        else:
+            permission_classes = []
+        return [permission() for permission in permission_classes]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)

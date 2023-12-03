@@ -14,6 +14,7 @@ router.register(r'user', UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('login/', obtain_auth_token),
-    path('logout/', LogoutApiView.as_view())
+    path('logout/', LogoutApiView.as_view()),
+    path('articles/<int:pk>/comments/', CommentViewSet.as_view(['post','list']))
 ]
 
