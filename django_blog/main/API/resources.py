@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets, mixins, status, views
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import action
+from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -115,7 +116,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class TopicSubscriptionAPIView(APIView):
     def post(self, request, topic_id):
-        topic = Topic.objects.get(pk=topic_id)
+        topic = get_object_or_404(Topic, pk=topic_id)
         serializer = TopicSubscriptionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         subscribe = serializer.validated_data['subscribe']
