@@ -129,6 +129,7 @@ class TopicUnsubscribeView(LoginRequiredMixin, UpdateView):
     template_name = 'main/topic/topic_unsubscribe.html'
     fields = []
     success_url = reverse_lazy('main:topic_list')
+
     def form_valid(self, form):
         user = self.request.user
         topic = form.save(commit=False)
@@ -143,21 +144,12 @@ class TopicSubscribeView(LoginRequiredMixin, UpdateView):
     template_name = 'main/topic/topic_subscribe.html'
     fields = []
     success_url = reverse_lazy('main:topic_list')
+
     def form_valid(self, form):
         user = self.request.user
         topic = form.save(commit=False)
         topic.subscribers.add(user)
         return super().form_valid(form)
-
-
-@login_required(login_url='/login/')
-def subscribe_to_topic(request, topic):
-    return render(request, 'main/topic/topic_subscribe.html')
-
-
-@login_required(login_url='/login/')
-def unsubscribe_from_topic(request, topic):
-    return render(request, 'main/topic/topic_unsubscribe.html')
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
