@@ -81,6 +81,9 @@ DATABASES = {
         'PASSWORD': 'mypass',
         'HOST': 'localhost',
         'PORT': '5432',
+        'TEST': {
+            'NAME': 'testdb',
+        },
     }
 }
 
